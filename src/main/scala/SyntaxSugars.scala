@@ -82,7 +82,7 @@ object SyntaxSugars extends App {
   // Syntax sugar #6
   // update() is very special, much like apply()
 
-  val arrayA = Array[1,2,3]
+  val arrayA = Array(1,2,3)
   arrayA(2) = 7 // --> arrayA.update(2, 7)
   // usable in mutable collections
 
@@ -96,8 +96,8 @@ object SyntaxSugars extends App {
       internalMember = value
   }
 
-  val mutableContainer = new Mutable
-  mutableContainer.member = 42
+  // val mutableContainer = new Mutable
+  // mutableContainer.member = 42
   // rewritten to mutableContainer.member_ = 42
 
 }
