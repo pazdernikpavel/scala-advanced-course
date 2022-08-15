@@ -11,6 +11,9 @@ trait MySet[A] extends (A => Boolean) {
   def flatMap[B](f: A => MySet[B]): MySet[B]
   def filter(predicate: A => Boolean): MySet[A]
   def foreach(f: A => Unit): Unit
+  def -(elem: A): MySet[A] 
+  def --(anotherSet: MySet[A]): MySet[A]
+  def &(anotherSet: MySet[A]): MySet[A]
 }
 
 class EmptySet[A] extends MySet[A] {
@@ -21,6 +24,9 @@ class EmptySet[A] extends MySet[A] {
   def flatMap[B](f: A => MySet[B]): MySet[B] = new EmptySet[B]
   def filter(predicate: A => Boolean): MySet[A] = this
   def foreach(f: A => Unit): Unit = ()
+  def -(elem: A): MySet[A] = this
+  def --(anotherSet: MySet[A]): MySet[A] = anotherSet
+  def &(anotherSet: MySet[A]): MySet[A] = this
 }
 
 class NonEmptySet[A](head: A, tail: MySet[A]) extends MySet[A] {
@@ -45,6 +51,9 @@ class NonEmptySet[A](head: A, tail: MySet[A]) extends MySet[A] {
     f(head)
     tail foreach f
   }
+  def -(elem: A): MySet[A] = filter(x => x != elem)
+  def --(anotherSet: MySet[A]): MySet[A] = filter(x => !anotherSet.contains(x))
+  def &(anotherSet: MySet[A]): MySet[A] = filter(anotherSet)
 }
 
 object MySet {
